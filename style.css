@@ -3,7 +3,7 @@
 }
 
 header {
-    background-image: url(../images/pattern.jpeg);
+    background-image: url("https://content.codecademy.com/courses/freelance-1/unit-2/pattern.jpeg?_gl=1*9so8i5*_gcl_au*MTQ4Mjc2NjM5LjE3MzA5Njk4OTU.*_ga*ODU0MjYyMTM0OC4xNzMwOTY5ODk4*_ga_3LRZM6TM9L*MTczMzQxNjcwNC4xMDAuMS4xNzMzNDE3MDc4LjAuMC4w");
     margin: 10px 0;
 }
 
