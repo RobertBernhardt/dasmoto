@@ -1,32 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasmoto</title>
-    <link rel="stylesheet" href="./style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123029">
+<title>Dasmoto's Arts &amp; Crafts</title>
+<meta name="description" content="Dasmoto's Arts & Crafts: Hacksaw oak brushes, assorted art frames and Clean Finnish Paint in 256 colours. An Art Deco shop received over a shaky line.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Limelight&family=Marcellus&family=Marcellus+SC&family=Playfair+Display:ital,wght@1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Dasmoto's Arts & Crafts</h1>
-    </header>
-    <section class="category" id="brushes">
-        <h2 id="h2brushes">Brushes</h2>
-        <img src="https://content.codecademy.com/courses/freelance-1/unit-2/hacksaw.jpeg?_gl=1*xscenj*_gcl_au*MTQ4Mjc2NjM5LjE3MzA5Njk4OTU.*_ga*ODU0MjYyMTM0OC4xNzMwOTY5ODk4*_ga_3LRZM6TM9L*MTczMzQxNjcwNC4xMDAuMS4xNzMzNDE3MjA4LjAuMC4w" alt="">
-        <h3>Hacksaw Brushes</h3>
-        <p>Made of the highest quality oak, Hacksaw brushes are known for their weight and ability to hold paint in large amounts. Available in different sizes. <strong>Starting at $3.00 / brush.</strong></p>
-    </section>
-    <section class="category" id="frames">
-        <h2 id="h2frames">Frames</h2>
-        <img src="https://content.codecademy.com/courses/freelance-1/unit-2/frames.jpeg?_gl=1*xscenj*_gcl_au*MTQ4Mjc2NjM5LjE3MzA5Njk4OTU.*_ga*ODU0MjYyMTM0OC4xNzMwOTY5ODk4*_ga_3LRZM6TM9L*MTczMzQxNjcwNC4xMDAuMS4xNzMzNDE3MjA4LjAuMC4w" alt="">
-        <h3>Art Frames (assorted)</h3>
-        <p>Assorted frames made of different material, including MDF, birchwood, and PDE. Select frames can be sanded and painted according to your needs. <strong>Starting at $2.00 / frame.</strong></p>
-    </section>
-    <section class="category" id="paint">
-        <h2 id="h2paint">Paint</h2>
-        <img src="https://content.codecademy.com/courses/freelance-1/unit-2/finnish.jpeg?_gl=1*xscenj*_gcl_au*MTQ4Mjc2NjM5LjE3MzA5Njk4OTU.*_ga*ODU0MjYyMTM0OC4xNzMwOTY5ODk4*_ga_3LRZM6TM9L*MTczMzQxNjcwNC4xMDAuMS4xNzMzNDE3MjA4LjAuMC4w" alt="">
-        <h3>Clean Finnish Paint</h3>
-        <p>Imported paint from Finland. Over 256 colors available in-store, varying in quantity (1 oz. to 8 oz.). Clean Finnish paint microbinds to canvas, increasing the finish and longevity of any artwork. <strong>Starting at $5.00 / tube.</strong></p>
-    </section>
+
+<!-- shared gradients for the gold emblems + the filter that tears the picture -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecc877"/><stop offset=".45" stop-color="#c99a45"/><stop offset="1" stop-color="#8e6424"/>
+    </linearGradient>
+    <linearGradient id="gOak" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6b4220"/><stop offset=".35" stop-color="#c8955a"/><stop offset=".6" stop-color="#a87238"/><stop offset="1" stop-color="#5a3818"/>
+    </linearGradient>
+    <!-- horizontal slices pushed sideways (quantised noise), then the colour channels pulled apart -->
+    <filter id="tear" x="-4%" y="0%" width="108%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence id="tearNoise" type="fractalNoise" baseFrequency="0.00008 0.045" numOctaves="1" seed="3" result="n"/>
+      <feComponentTransfer in="n" result="bands">
+        <feFuncR type="discrete" tableValues="0.5 0.5 0.5 0.15 0.5 0.5 0.85 0.5 0.5 0.32 0.5 0.5"/>
+        <feFuncG type="linear" slope="0" intercept="0.5"/>
+      </feComponentTransfer>
+      <feDisplacementMap id="tearMap" in="SourceGraphic" in2="bands" scale="60" xChannelSelector="R" yChannelSelector="G" result="torn"/>
+      <feColorMatrix in="torn" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+      <feOffset id="tearR" in="r" dx="-4" dy="0" result="r2"/>
+      <feColorMatrix in="torn" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" result="gb"/>
+      <feOffset id="tearGB" in="gb" dx="4" dy="0" result="gb2"/>
+      <feBlend in="r2" in2="gb2" mode="screen"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- slim bar once the hero is scrolled past -->
+<nav class="minibar" aria-label="Sections">
+  <a class="mono" href="#top" aria-label="Back to top">D</a>
+  <div class="minilinks"><a href="#brushes">Brushes</a><a href="#frames">Frames</a><a href="#paint">Paint</a></div>
+</nav>
+
+<main>
+
+<!-- ============================ HERO (teal) ============================ -->
+<section id="top" class="hero sec" data-pal="teal">
+  <svg class="deco-frame" aria-hidden="true"></svg>
+
+  <header class="hero-head">
+    <a class="cartouche" href="#top">
+      <h1><span class="shop-name goldtype gt" data-text="Dasmoto's" data-scramble>Dasmoto's</span>
+      <span class="shop-sub">Arts &amp; Crafts</span></h1>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#brushes">Brushes</a><span class="dia" aria-hidden="true"></span>
+      <a href="#frames">Frames</a><span class="dia" aria-hidden="true"></span>
+      <a href="#paint">Paint</a><span class="dia" aria-hidden="true"></span>
+      <a href="#visit">Visit</a>
+    </nav>
+  </header>
+
+  <div class="hero-main">
+    <div class="hero-copy">
+      <p class="slogan">Tools for people who <em>make things.</em></p>
+      <p class="lede">Oak brushes that hold <b>a lake of paint</b>, frames you can sand and repaint, and Finnish paint in <b>256 colours</b>. Three counters, one shop.</p>
+      <a class="btn" href="#brushes"><span>Enter the shop</span></a>
+      <p class="feed-note"><i aria-hidden="true"></i>Live feed · reception may vary</p>
+    </div>
+    <figure class="window" data-tear aria-label="Shop window: a Hacksaw brush, an art frame and a tube of Finnish paint in front of a sunburst">
+      <svg class="still" viewBox="0 0 640 560" aria-hidden="true"></svg>
+    </figure>
+  </div>
+
+  <div class="hero-foot">
+    <h2 class="rule-title goldtype"><span class="rule" aria-hidden="true"></span>The Counters</h2>
+    <ul class="tiles">
+      <li><a class="tile lift t-brush" href="#brushes"><span class="lift-body"><span class="tile-ico" data-icon="brush" data-z="34"></span><span class="tile-name" data-z="18">Brushes</span></span></a></li>
+      <li><a class="tile lift t-frame" href="#frames"><span class="lift-body"><span class="tile-ico" data-icon="frame" data-z="34"></span><span class="tile-name" data-z="18">Frames</span></span></a></li>
+      <li><a class="tile lift t-tube" href="#paint"><span class="lift-body"><span class="tile-ico" data-icon="tube" data-z="34"></span><span class="tile-name" data-z="18">Paint</span></span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ I. BRUSHES (jade) ============================ -->
+<section id="brushes" class="counter brushes sec" data-pal="jade">
+  <svg class="deco-frame" aria-hidden="true"></svg>
+  <div class="wrap counter-grid">
+    <div class="counter-copy">
+      <p class="kicker"><span>I</span> Counter one</p>
+      <h2 class="band gt" data-text="Brushes">Brushes</h2>
+      <h3 data-scramble>Hacksaw Brushes</h3>
+      <p>Made of the highest quality oak, Hacksaw brushes are known for their weight and ability to hold paint in large amounts. Available in different sizes.</p>
+      <p class="price"><small>Starting at</small><b data-scramble>$3.00</b><span>/ brush</span></p>
+      <div>
+        <span class="ctl-label" id="sizeLbl">Brush size</span>
+        <div class="chips sizes" role="group" aria-labelledby="sizeLbl">
+          <button class="chip" type="button" data-size="2" aria-pressed="false">No. 2</button>
+          <button class="chip" type="button" data-size="6" aria-pressed="true">No. 6</button>
+          <button class="chip" type="button" data-size="10" aria-pressed="false">No. 10</button>
+          <button class="chip" type="button" data-size="16" aria-pressed="false">No. 16</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage brush-stage">
+      <div class="brush-arch" data-tear>
+        <svg class="arch-frame" aria-hidden="true"></svg>
+        <span class="arch-ico" data-icon="brush"></span>
+        <div class="load" aria-live="polite"><span>Paint load <em class="load-n">100%</em></span><i></i></div>
+      </div>
+      <div class="pad-wrap">
+        <div>
+          <span class="ctl-label" id="dipLbl">Dip into</span>
+          <div class="chips dips" role="group" aria-labelledby="dipLbl">
+            <button class="chip" type="button" data-paint="#2f8f6e" aria-pressed="true"><i class="dot" style="--c:#2f8f6e"></i>Jade</button>
+            <button class="chip" type="button" data-paint="#c99a45" aria-pressed="false"><i class="dot" style="--c:#c99a45"></i>Ochre</button>
+            <button class="chip" type="button" data-paint="#7a2c1b" aria-pressed="false"><i class="dot" style="--c:#7a2c1b"></i>Oxblood</button>
+            <button class="chip" type="button" data-paint="#16323f" aria-pressed="false"><i class="dot" style="--c:#16323f"></i>Ink</button>
+          </div>
+        </div>
+        <div class="pad" role="img" aria-label="Test sheet: drag to paint a stroke with the selected brush">
+          <canvas></canvas>
+          <p class="pad-empty">Drag across the sheet<br>to try a stroke</p>
+        </div>
+        <div class="pad-tools">
+          <p class="hint">One dip lasts a long stroke. That's the oak.</p>
+          <button class="chip pad-clear" type="button">New sheet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ II. FRAMES (coral) ============================ -->
+<section id="frames" class="counter frames sec" data-pal="coral">
+  <svg class="deco-frame" aria-hidden="true"></svg>
+  <div class="wrap counter-grid flip">
+    <div class="counter-copy">
+      <p class="kicker"><span>II</span> Counter two</p>
+      <h2 class="band gt" data-text="Frames">Frames</h2>
+      <h3 data-scramble>Art Frames (assorted)</h3>
+      <p>Assorted frames made of different material, including MDF, birchwood, and PDE. Select frames can be sanded and painted according to your needs.</p>
+      <p class="price"><small>Starting at</small><b data-scramble>$2.00</b><span>/ frame</span></p>
+      <div class="frame-ctl">
+        <div>
+          <span class="ctl-label" id="matLbl">Material</span>
+          <div class="chips mats" role="group" aria-labelledby="matLbl">
+            <button class="chip" type="button" data-mat="mdf" aria-pressed="false">MDF</button>
+            <button class="chip" type="button" data-mat="birch" aria-pressed="true">Birchwood</button>
+            <button class="chip" type="button" data-mat="pde" aria-pressed="false">PDE</button>
+          </div>
+        </div>
+        <div>
+          <span class="ctl-label" id="coatLbl">Sand &amp; paint</span>
+          <div class="chips coats" role="group" aria-labelledby="coatLbl">
+            <button class="chip" type="button" data-coat="" aria-pressed="true">Raw</button>
+            <button class="chip" type="button" data-coat="#c99a45" aria-pressed="false"><i class="dot" style="--c:#c99a45"></i>Ochre</button>
+            <button class="chip" type="button" data-coat="#1f5a50" aria-pressed="false"><i class="dot" style="--c:#1f5a50"></i>Teal</button>
+            <button class="chip" type="button" data-coat="#e9dcc0" aria-pressed="false"><i class="dot" style="--c:#e9dcc0"></i>Bone</button>
+            <button class="chip" type="button" data-coat="#d9725c" aria-pressed="false"><i class="dot" style="--c:#d9725c"></i>Coral</button>
+          </div>
+        </div>
+        <p class="frame-note" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="frame-view" data-tear>
+        <svg viewBox="0 0 500 530" role="img" aria-label="An art frame in the selected material and finish around a small sunburst picture"></svg>
+      </div>
+      <p class="hint" style="text-align:center">Tap the picture for another one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ III. PAINT (night) ============================ -->
+<section id="paint" class="counter paint sec" data-pal="night">
+  <svg class="deco-frame" aria-hidden="true"></svg>
+  <div class="wrap counter-grid">
+    <div class="counter-copy">
+      <p class="kicker"><span>III</span> Counter three</p>
+      <h2 class="band gt" data-text="Paint">Paint</h2>
+      <h3 data-scramble>Clean Finnish Paint</h3>
+      <p>Imported paint from Finland. Over 256 colors available in-store, varying in quantity (1 oz. to 8 oz.). Clean Finnish paint microbinds to canvas, increasing the finish and longevity of any artwork.</p>
+      <p class="price"><small>Starting at</small><b data-scramble>$5.00</b><span>/ tube</span></p>
+      <div>
+        <span class="ctl-label" id="ozLbl">Tube</span>
+        <div class="chips oz" role="group" aria-labelledby="ozLbl">
+          <button class="chip" type="button" data-oz="1" aria-pressed="false">1 oz</button>
+          <button class="chip" type="button" data-oz="2" aria-pressed="true">2 oz</button>
+          <button class="chip" type="button" data-oz="4" aria-pressed="false">4 oz</button>
+          <button class="chip" type="button" data-oz="8" aria-pressed="false">8 oz</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage paint-stage">
+      <div class="tube-col">
+        <div class="tube-box"><span class="tube-ico" data-icon="tube"></span></div>
+        <p class="tube-read" aria-live="polite"><b class="tube-no">No. 104</b><span class="tube-hex">#000000</span></p>
+      </div>
+      <div>
+        <div class="wall" tabindex="0" role="listbox" aria-label="256 colours. Use the arrow keys to choose one."></div>
+        <p class="wall-cap"><span>256 colours in store</span><span>Helsinki → here</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer id="visit" class="foot sec" data-pal="teal">
+  <svg class="deco-frame" aria-hidden="true"></svg>
+  <div class="wrap foot-in">
+    <p class="foot-eot">— End of transmission —</p>
+    <a class="foot-mono" href="#top" aria-label="Back to top">D</a>
+    <p class="foot-name">Dasmoto's Arts &amp; Crafts · Brushes · Frames · Paint</p>
+    <a class="foot-2024" href="2024/">Tune in to the 2024 broadcast &rarr;</a>
+    <p class="foot-fine">This page began as a Codecademy exercise in 2024: one header, three headings, three photos. Same shop, same words, rebuilt in 2026. Every visual is drawn by code; the interference is on purpose.</p>
+  </div>
+</footer>
+
+<!-- the signal layer -->
+<div class="grain" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+<div class="roll" aria-hidden="true"></div>
+<p class="log" aria-hidden="true"></p>
+<div class="nosig" aria-hidden="true"><p>No signal<small>re-routing&hellip;</small></p></div>
+<aside class="signal" aria-label="Signal">
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+  <span class="sig-txt"><span class="sig-val">Signal 71%</span><small class="sig-state">Link unstable</small></span>
+  <button class="sig-btn" type="button" aria-pressed="false">Stabilize</button>
+</aside>
+
+<script src="js/deco.js"></script>
+<script src="js/emblems.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/signal.js"></script>
 </body>
 </html>
